@@ -1,6 +1,17 @@
 package com.github.theword.utils;
 
+import com.github.theword.eventModels.base.BaseEvent;
+import com.github.theword.websocket.WsClient;
+import org.slf4j.Logger;
+
+import java.util.List;
+
 public class Tool {
+    public static Logger logger = null;
+    public static Config config = null;
+    public static List<WsClient> wsClientList = null;
+    public static HandleWebsocketMessage handleWebsocketMessage = null;
+
     /**
      * 字符串转为 unicode 编码
      *
@@ -32,4 +43,10 @@ public class Tool {
         return string.toString();
     }
 
+    public static void sendMessage(BaseEvent event) {
+        if (config.isEnableMcQQ()) {
+            event.setServerName(config.getServerName());
+            wsClientList.forEach(wsClient -> wsClient.send(event.getJson()));
+        }
+    }
 }
