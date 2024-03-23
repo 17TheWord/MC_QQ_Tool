@@ -2,11 +2,13 @@ package com.github.theword.eventModels.base;
 
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
+import lombok.Setter;
 
 
-class BaseEvent {
+public class BaseEvent {
+    @Setter
     @SerializedName("server_name")
-    private final String serverName;
+    private String serverName;
     @SerializedName("event_name")
     private final String eventName;
     @SerializedName("post_type")
@@ -15,8 +17,7 @@ class BaseEvent {
     private final String subType;
     private final int timestamp = (int) (System.currentTimeMillis() / 1000);
 
-    public BaseEvent(String serverName, String eventName, String postType, String subType) {
-        this.serverName = serverName;
+    public BaseEvent(String eventName, String postType, String subType) {
         this.eventName = eventName;
         this.postType = postType;
         this.subType = subType;

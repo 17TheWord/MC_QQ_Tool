@@ -8,8 +8,8 @@ public class BaseMessageEvent extends BaseEvent {
     private final BasePlayer player;
     private final String message;
 
-    public BaseMessageEvent(String serverName, String eventName, String subType, String messageId, BasePlayer player, String message) {
-        super(serverName, eventName, "message", subType);
+    public BaseMessageEvent(String eventName, String subType, String messageId, BasePlayer player, String message) {
+        super(eventName, "message", subType);
         this.messageId = messageId;
         this.player = player;
         this.message = message;
