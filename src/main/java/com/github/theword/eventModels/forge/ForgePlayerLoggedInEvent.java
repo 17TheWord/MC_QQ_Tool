@@ -4,6 +4,6 @@ import com.github.theword.eventModels.base.BasePlayerJoinEvent;
 
 public final class ForgePlayerLoggedInEvent extends BasePlayerJoinEvent {
     public ForgePlayerLoggedInEvent(ForgeServerPlayer player) {
-        super("ForgePlayerLoggedInEvent", player);
+        super("PlayerLoggedInEvent", player);
     }
 }
