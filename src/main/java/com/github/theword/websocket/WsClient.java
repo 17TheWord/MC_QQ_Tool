@@ -45,7 +45,7 @@ public class WsClient extends WebSocketClient {
                 handleWebsocketMessage.handleWebSocketJson(message);
             } catch (Exception e) {
                 logger.warn(String.format(WebsocketConstantMessage.WEBSOCKET_ERROR_ON_MESSAGE, getURI()));
-                e.printStackTrace();
+                logger.warn(e.getMessage());
             }
         }
     }
