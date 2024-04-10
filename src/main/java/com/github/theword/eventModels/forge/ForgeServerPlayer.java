@@ -19,8 +19,6 @@ public class ForgeServerPlayer extends BasePlayer {
     @SerializedName("ip_address")
     private String ipAddress;
 
-    private String level;
-
     private float speed;
     @SerializedName("flying_speed")
     private float flyingSpeed;
