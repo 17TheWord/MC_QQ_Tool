@@ -16,7 +16,7 @@ public class WebsocketConstantMessage extends BaseConstant {
 
     public static final String WEBSOCKET_ERROR_URI_SYNTAX_ERROR = CONNECT_TO + "WebSocket URL 格式错误，无法连接！";
 
-    public static final String WEBSOCKET_RECONNECT_TIMES_REACH = CONNECT_TO + "重连次数达到最大值，已停止重连！";
+    public static final String WEBSOCKET_RECONNECT_TIMES_REACH = CONNECT_TO + "重连次数达到最大值，将不再自动重连，请手动重连！";
 
     public static final String WEBSOCKET_UNKNOWN_API = PREFIX + "未知的API：";
 }

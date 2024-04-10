@@ -1,34 +1,26 @@
 package com.github.theword.websocket;
 
 import com.github.theword.constant.WebsocketConstantMessage;
-import com.github.theword.utils.Config;
-import com.github.theword.utils.HandleWebsocketMessage;
+import lombok.Getter;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
-import org.slf4j.Logger;
 
 import java.net.ConnectException;
 import java.net.URI;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import static com.github.theword.utils.Tool.unicodeEncode;
+import static com.github.theword.utils.Tool.*;
 
 
 public class WsClient extends WebSocketClient {
     private int reconnectTimes = 1;
+    @Getter
     private final Timer timer = new Timer();
-    private final Logger logger;
 
-    private final HandleWebsocketMessage handleWebsocketMessage;
-    private final Config config;
-
-    public WsClient(URI uri, Logger logger, HandleWebsocketMessage handleWebsocketMessage, Config config) {
+    public WsClient(URI uri) {
         super(uri);
         addHeader("x-self-name", unicodeEncode(config.getServerName()));
-        this.logger = logger;
-        this.handleWebsocketMessage = handleWebsocketMessage;
-        this.config = config;
     }
 
     /**
@@ -53,7 +45,7 @@ public class WsClient extends WebSocketClient {
                 handleWebsocketMessage.handleWebSocketJson(message);
             } catch (Exception e) {
                 logger.warn(String.format(WebsocketConstantMessage.WEBSOCKET_ERROR_ON_MESSAGE, getURI()));
-                e.printStackTrace();
+                logger.warn(e.getMessage());
             }
         }
     }
@@ -69,9 +61,6 @@ public class WsClient extends WebSocketClient {
     public void onClose(int code, String reason, boolean remote) {
         if (remote && reconnectTimes <= config.getReconnectMaxTimes()) {
             reconnectWebsocket();
-            if (reconnectTimes == config.getReconnectMaxTimes()) {
-                logger.info(String.format(WebsocketConstantMessage.WEBSOCKET_RECONNECT_TIMES_REACH, getURI()));
-            }
         }
     }
 
@@ -85,6 +74,11 @@ public class WsClient extends WebSocketClient {
         timer.schedule(timerTask, config.getReconnectInterval() * 1000L);
     }
 
+    public void stopWithoutReconnect(int code, String reason) {
+        timer.cancel();
+        close(code, reason);
+    }
+
     @Override
     public void reconnect() {
         if (config.isEnableReconnectMessage()) {
@@ -92,6 +86,9 @@ public class WsClient extends WebSocketClient {
         }
         reconnectTimes++;
         super.reconnect();
+        if (reconnectTimes == config.getReconnectMaxTimes()) {
+            logger.info(String.format(WebsocketConstantMessage.WEBSOCKET_RECONNECT_TIMES_REACH, getURI()));
+        }
     }
 
     /**
@@ -104,13 +101,15 @@ public class WsClient extends WebSocketClient {
         logger.warn(String.format(WebsocketConstantMessage.WEBSOCKET_ON_ERROR, getURI(), exception.getMessage()));
         if (exception instanceof ConnectException && exception.getMessage().equals("Connection refused: connect") && reconnectTimes <= config.getReconnectMaxTimes()) {
             reconnectWebsocket();
-            if (reconnectTimes == config.getReconnectMaxTimes()) {
-                logger.info(String.format(WebsocketConstantMessage.WEBSOCKET_RECONNECT_TIMES_REACH, getURI()));
-            }
         }
     }
 
-    public Timer getTimer() {
-        return timer;
+    @Override
+    public void send(String text) {
+        if (isOpen()) {
+            super.send(text);
+        } else {
+            logger.info(String.format(WebsocketConstantMessage.WEBSOCKET_IS_NOT_OPEN_WHEN_SEND_MESSAGE, getURI()));
+        }
     }
 }

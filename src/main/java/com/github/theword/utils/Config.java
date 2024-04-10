@@ -2,7 +2,6 @@ package com.github.theword.utils;
 
 import lombok.Getter;
 import org.apache.commons.io.FileUtils;
-import org.slf4j.Logger;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.IOException;
@@ -15,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import static com.github.theword.utils.Tool.logger;
 
 @Getter
 public class Config {
@@ -35,7 +35,7 @@ public class Config {
     private boolean enableQuitMessage;
     private String serverName;
 
-    public Config(boolean isModServer, Logger logger) {
+    public Config(boolean isModServer) {
         String configFolder;
         if (isModServer) {
             configFolder = "mods";
