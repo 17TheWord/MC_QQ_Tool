@@ -4,12 +4,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.github.theword</groupId>
+    <groupId>com.github.theword.mcqq</groupId>
     <artifactId>mc-qq-tool</artifactId>
     <version>${project.version}</version>
 
     <properties>
-        <project.version>0.0.6</project.version>
+        <project.version>0.0.1</project.version>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
