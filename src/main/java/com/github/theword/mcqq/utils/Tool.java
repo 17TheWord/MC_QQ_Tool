@@ -2,6 +2,7 @@ package com.github.theword.mcqq.utils;
 
 import com.github.theword.mcqq.eventModels.base.BaseEvent;
 import com.github.theword.mcqq.websocket.WsClient;
+import com.github.theword.mcqq.websocket.WsServer;
 import org.slf4j.Logger;
 
 import java.util.List;
@@ -11,6 +12,7 @@ public class Tool {
     public static Config config = null;
     public static List<WsClient> wsClientList = null;
     public static HandleWebsocketMessage handleWebsocketMessage = null;
+    public static WsServer wsServer = null;
 
     /**
      * 字符串转为 unicode 编码
@@ -47,6 +49,9 @@ public class Tool {
         if (config.isEnableMcQQ()) {
             event.setServerName(config.getServerName());
             wsClientList.forEach(wsClient -> wsClient.send(event.getJson()));
+            if (wsServer != null) {
+                wsServer.broadcast(event.getJson());
+            }
         }
     }
 }
