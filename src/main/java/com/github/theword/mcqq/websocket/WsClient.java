@@ -21,6 +21,7 @@ public class WsClient extends WebSocketClient {
     public WsClient(URI uri) {
         super(uri);
         addHeader("x-self-name", unicodeEncode(config.getServerName()));
+        addHeader("x-client-origin", "minecraft");
     }
 
     /**
