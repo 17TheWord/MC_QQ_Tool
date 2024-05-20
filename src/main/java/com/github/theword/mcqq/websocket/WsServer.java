@@ -17,7 +17,6 @@ public class WsServer extends WebSocketServer {
 
     @Override
     public void onOpen(WebSocket webSocket, ClientHandshake clientHandshake) {
-        System.out.println(webSocket.getRemoteSocketAddress().toString().replaceFirst("/", ""));
         String originServerName = clientHandshake.getFieldValue("x-self-name");
         if (originServerName.isEmpty()) {
             logger.warn(String.format("来自 %s 的连接请求头中缺少服务器名，将断开连接", webSocket.getRemoteSocketAddress().getHostString()));
@@ -46,6 +45,8 @@ public class WsServer extends WebSocketServer {
     public void onClose(WebSocket webSocket, int code, String reason, boolean remote) {
         if (remote) {
             logger.info(String.format("来自 %s 的连接已关闭", webSocket.getRemoteSocketAddress().getHostString()));
+        } else {
+            logger.info(String.format("已关闭来自 %s 的连接", webSocket.getRemoteSocketAddress().getHostString()));
         }
     }
 
