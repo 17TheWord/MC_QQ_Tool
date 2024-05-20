@@ -10,5 +10,7 @@ class ConfigTest {
     @Test
     void test() {
         logger = LoggerFactory.getLogger(ConfigTest.class);
+//        Config config = new Config(false);
+//        logger.info(config.getWebsocketUrlList().toString());
     }
 }
