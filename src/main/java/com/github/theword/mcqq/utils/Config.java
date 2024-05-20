@@ -93,44 +93,6 @@ public class Config {
         enableWebsocketClient = false;
     }
 
-    private void loadConfigValues(Map<String, Object> configMap) {
-        enableMcQQ = (boolean) configMap.get("enable_mc_qq");
-        enableChatMessage = (boolean) configMap.get("enable_chat_message");
-        enableReconnectMessage = (boolean) configMap.get("enable_reconnect_msg");
-        reconnectMaxTimes = (int) configMap.get("reconnect_max_times");
-        reconnectInterval = (int) configMap.get("reconnect_interval");
-        enableWebsocketClient = (boolean) configMap.get("websocket_url_list");
-        sayWay = (String) configMap.get("say_way");
-        enableCommandMessage = (boolean) configMap.get("enable_command_message");
-        enableDeathMessage = (boolean) configMap.get("enable_death_message");
-        enableJoinMessage = (boolean) configMap.get("enable_join_message");
-        enableQuitMessage = (boolean) configMap.get("enable_quit_message");
-        serverName = (String) configMap.get("server_name");
-        loadWebsocketUrlList(configMap.get("websocket_url_list"));
-        loadWebsocketServer(configMap.get("websocket_server"));
-    }
-
-    private void setDefaultValues() {
-        enableMcQQ = true;
-        enableChatMessage = true;
-        enableReconnectMessage = false;
-        reconnectMaxTimes = 5;
-        reconnectInterval = 5000;
-        enableWebsocketServer = false;
-        websocketServerHost = "127.0.0.1";
-        websocketServerPort = 8080;
-        enableWebsocketClient = true;
-        websocketUrlList = new ArrayList<String>() {{
-            add("ws://127.0.0.1:8080/minecraft/ws");
-        }};
-        sayWay = "说：";
-        enableCommandMessage = false;
-        enableDeathMessage = true;
-        enableJoinMessage = true;
-        enableQuitMessage = true;
-        serverName = "Server";
-    }
-
     /**
      * 加载配置
      *
