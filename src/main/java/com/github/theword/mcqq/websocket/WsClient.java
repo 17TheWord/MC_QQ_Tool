@@ -1,6 +1,7 @@
 package com.github.theword.mcqq.websocket;
 
 import com.github.theword.mcqq.constant.WebsocketConstantMessage;
+import com.github.theword.mcqq.handleMessage.HandleProtocolMessage;
 import lombok.Getter;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
@@ -17,6 +18,7 @@ public class WsClient extends WebSocketClient {
     private int reconnectTimes = 1;
     @Getter
     private final Timer timer = new Timer();
+    private final HandleProtocolMessage handleProtocolMessage = new HandleProtocolMessage();
 
     public WsClient(URI uri) {
         super(uri);

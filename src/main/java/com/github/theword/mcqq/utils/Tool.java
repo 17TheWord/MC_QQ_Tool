@@ -14,9 +14,11 @@ import java.util.List;
 public class Tool {
     public static Logger logger = null;
     public static Config config = null;
-    public static List<WsClient> wsClientList = new ArrayList<>();
-    public static HandleWebsocketMessage handleWebsocketMessage = null;
     public static WsServer wsServer = null;
+    public static List<WsClient> wsClientList = new ArrayList<>();
+    public static WebsocketManager websocketManager = null;
+    public static HandleApi handleApi = null;
+    public static HandleCommandReturnMessage handleCommandReturnMessage = null;
 
     /**
      * 字符串转为 unicode 编码
@@ -92,7 +94,7 @@ public class Tool {
      */
     public static void commandReturn(Object commandReturner, String message) {
         if (commandReturner != null)
-            handleWebsocketMessage.handleCommandReturnMessage(commandReturner, message);
+            handleCommandReturnMessage.handleCommandReturnMessage(commandReturner, message);
     }
 
     /**

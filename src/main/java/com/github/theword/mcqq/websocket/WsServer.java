@@ -1,6 +1,7 @@
 package com.github.theword.mcqq.websocket;
 
 import com.github.theword.mcqq.constant.WebsocketConstantMessage;
+import com.github.theword.mcqq.handleMessage.HandleProtocolMessage;
 import org.java_websocket.WebSocket;
 import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.server.WebSocketServer;
@@ -10,6 +11,7 @@ import java.net.InetSocketAddress;
 import static com.github.theword.mcqq.utils.Tool.*;
 
 public class WsServer extends WebSocketServer {
+    private final HandleProtocolMessage handleProtocolMessage = new HandleProtocolMessage();
 
     public WsServer(InetSocketAddress address) {
         super(address);
