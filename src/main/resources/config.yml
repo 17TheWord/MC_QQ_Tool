@@ -16,7 +16,7 @@ reconnect_max_times: 5
 # 重连间隔，单位：秒
 reconnect_interval: 5
 
-# WebSocket Server 地址
+# WebSocket Server配置项
 websocket_server:
   enable: false
   host: "127.0.0.1"
@@ -24,9 +24,10 @@ websocket_server:
 
 # 请在冒号后填写 WebSocket 地址。
 # 默认：ws://127.0.0.1:8080/minecraft/ws
-enable_websocket_client: true
-websocket_url_list:
-  - "ws://127.0.0.1:8080/minecraft/ws"
+websocket_client:
+  enable: true
+  url_list:
+    - "ws://127.0.0.1:8080/minecraft/ws"
 
 # 是否启用 玩家命令事件监听
 # 开启后，当玩家输入命令时，Bot 会推送命令信息
