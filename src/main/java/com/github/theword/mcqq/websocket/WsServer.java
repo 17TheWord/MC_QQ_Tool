@@ -21,7 +21,7 @@ public class WsServer extends WebSocketServer {
     public void onOpen(WebSocket webSocket, ClientHandshake clientHandshake) {
         String originServerName = clientHandshake.getFieldValue("x-self-name");
         if (originServerName.isEmpty()) {
-            logger.warn(String.format("来自 %s 的连接请求头中缺少服务器名，将断开连接", webSocket.getRemoteSocketAddress().getHostString()));
+            logger.warn(String.format(WebsocketConstantMessage.Server.MISSING_SERVER_NAME_IN_HEADER, webSocket.getRemoteSocketAddress().getHostString()));
             webSocket.close(1008, "Missing X-Self-name Header");
             return;
         }
@@ -29,36 +29,33 @@ public class WsServer extends WebSocketServer {
         String clientOrigin = clientHandshake.getFieldValue("x-client-origin");
 
         if (clientOrigin.equalsIgnoreCase("minecraft")) {
-            logger.warn(String.format("来自 %s 的连接请求头中客户端来源为 minecraft，将断开连接", webSocket.getRemoteSocketAddress().getHostString()));
+            logger.warn(String.format(WebsocketConstantMessage.Server.WRONG_CLIENT_ORIGIN_IN_HEADER, webSocket.getRemoteSocketAddress().getHostString()));
             webSocket.close(1008, "X-Client-Origin Header cannot be minecraft");
             return;
         }
 
         String serverName = unicodeDecode(originServerName);
         if (serverName.isEmpty()) {
-            logger.warn(String.format("来自 %s 的连接请求头中服务器名解析失败，将断开连接", webSocket.getRemoteSocketAddress().getHostString()));
+            logger.warn(String.format(WebsocketConstantMessage.Server.PARSE_SERVER_NAME_FAILED_IN_HEADER, webSocket.getRemoteSocketAddress().getHostString()));
             webSocket.close(1008, "X-Self-name Header cannot be empty");
             return;
         }
-        logger.info(String.format("来自 %s 的连接已建立", webSocket.getRemoteSocketAddress().getHostString()));
+        logger.info(String.format(WebsocketConstantMessage.Server.CLIENT_CONNECTED_SUCCESSFULLY, webSocket.getRemoteSocketAddress().getHostString()));
     }
 
     @Override
     public void onClose(WebSocket webSocket, int code, String reason, boolean remote) {
-        if (remote) {
-            logger.info(String.format("来自 %s 的连接已关闭", webSocket.getRemoteSocketAddress().getHostString()));
-        } else {
-            logger.info(String.format("已关闭来自 %s 的连接", webSocket.getRemoteSocketAddress().getHostString()));
-        }
+        String closeReason = remote ? WebsocketConstantMessage.Server.CLIENT_DISCONNECTED : WebsocketConstantMessage.Server.CLIENT_HAD_BEEN_DISCONNECTED;
+        logger.info(String.format(closeReason, webSocket.getRemoteSocketAddress().getHostString()));
     }
 
     @Override
     public void onMessage(WebSocket webSocket, String message) {
         if (config.isEnableMcQQ()) {
             try {
-                handleWebsocketMessage.handleWebSocketJson(message);
+                handleProtocolMessage.handleWebSocketJson(message);
             } catch (Exception e) {
-                logger.warn(String.format(WebsocketConstantMessage.WEBSOCKET_ERROR_ON_MESSAGE, webSocket.getRemoteSocketAddress()));
+                logger.warn(String.format(WebsocketConstantMessage.PARSE_MESSAGE_ERROR_ON_MESSAGE, webSocket.getRemoteSocketAddress()));
                 logger.warn(e.getMessage());
             }
         }
@@ -66,11 +63,11 @@ public class WsServer extends WebSocketServer {
 
     @Override
     public void onError(WebSocket webSocket, Exception exception) {
-        logger.warn(String.format(WebsocketConstantMessage.WEBSOCKET_ON_ERROR, webSocket.getRemoteSocketAddress().toString().replaceFirst("/", ""), exception.getMessage()));
+        logger.warn(String.format(WebsocketConstantMessage.Server.ON_ERROR, webSocket.getRemoteSocketAddress().toString().replaceFirst("/", ""), exception.getMessage()));
     }
 
     @Override
     public void onStart() {
-        logger.info("Websocket Server 正在启动");
+        logger.info(WebsocketConstantMessage.Server.ON_START);
     }
 }

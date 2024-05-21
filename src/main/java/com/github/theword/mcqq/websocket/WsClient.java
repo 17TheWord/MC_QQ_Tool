@@ -33,7 +33,7 @@ public class WsClient extends WebSocketClient {
      */
     @Override
     public void onOpen(ServerHandshake serverHandshake) {
-        logger.info(String.format(WebsocketConstantMessage.WEBSOCKET_ON_OPEN, getURI()));
+        logger.info(String.format(WebsocketConstantMessage.Client.ON_OPEN, getURI()));
         reconnectTimes = 1;
     }
 
@@ -45,9 +45,9 @@ public class WsClient extends WebSocketClient {
     public void onMessage(String message) {
         if (config.isEnableMcQQ()) {
             try {
-                handleWebsocketMessage.handleWebSocketJson(message);
+                handleProtocolMessage.handleWebSocketJson(message);
             } catch (Exception e) {
-                logger.warn(String.format(WebsocketConstantMessage.WEBSOCKET_ERROR_ON_MESSAGE, getURI()));
+                logger.warn(String.format(WebsocketConstantMessage.PARSE_MESSAGE_ERROR_ON_MESSAGE, getURI()));
                 logger.warn(e.getMessage());
             }
         }
@@ -85,12 +85,12 @@ public class WsClient extends WebSocketClient {
     @Override
     public void reconnect() {
         if (config.isEnableReconnectMessage()) {
-            logger.info(String.format(WebsocketConstantMessage.WEBSOCKET_RECONNECT_MESSAGE, getURI(), reconnectTimes));
+            logger.info(String.format(WebsocketConstantMessage.Client.RECONNECT_MESSAGE, getURI(), reconnectTimes));
         }
         reconnectTimes++;
         super.reconnect();
-        if (reconnectTimes == config.getReconnectMaxTimes()) {
-            logger.info(String.format(WebsocketConstantMessage.WEBSOCKET_RECONNECT_TIMES_REACH, getURI()));
+        if (reconnectTimes == config.getReconnectMaxTimes() + 1) {
+            logger.info(String.format(WebsocketConstantMessage.Client.RECONNECT_TIMES_REACH, getURI()));
         }
     }
 
@@ -101,7 +101,7 @@ public class WsClient extends WebSocketClient {
      */
     @Override
     public void onError(Exception exception) {
-        logger.warn(String.format(WebsocketConstantMessage.WEBSOCKET_ON_ERROR, getURI(), exception.getMessage()));
+        logger.warn(String.format(WebsocketConstantMessage.Client.ON_ERROR, getURI(), exception.getMessage()));
         if (exception instanceof ConnectException && exception.getMessage().equals("Connection refused: connect") && reconnectTimes <= config.getReconnectMaxTimes()) {
             reconnectWebsocket();
         }
@@ -112,7 +112,7 @@ public class WsClient extends WebSocketClient {
         if (isOpen()) {
             super.send(text);
         } else {
-            logger.info(String.format(WebsocketConstantMessage.WEBSOCKET_IS_NOT_OPEN_WHEN_SEND_MESSAGE, getURI()));
+            logger.info(String.format(WebsocketConstantMessage.Client.IS_NOT_OPEN_WHEN_SEND_MESSAGE, getURI()));
         }
     }
 }
