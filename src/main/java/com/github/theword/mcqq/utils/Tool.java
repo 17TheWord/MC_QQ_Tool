@@ -60,14 +60,17 @@ public class Tool {
     /**
      * 初始化
      *
-     * @param logName                       日志名称
-     * @param isModServer                   是否为模组服务器
-     * @param handleWebsocketMessageService websocket消息处理
+     * @param isModServer                       是否为模组服务器
+     * @param handleApiService                  api消息处理
+     * @param handleCommandReturnMessageService 命令消息处理
      */
-    public static void initTool(String logName, boolean isModServer, HandleWebsocketMessage handleWebsocketMessageService) {
-        logger = LoggerFactory.getLogger(logName);
+    public static void initTool(boolean isModServer, HandleApi handleApiService, HandleCommandReturnMessage handleCommandReturnMessageService) {
+        logger.info(BaseConstant.LAUNCHING);
+        logger = LoggerFactory.getLogger("MC_QQ");
         config = new Config(isModServer);
-        handleWebsocketMessage = handleWebsocketMessageService;
+        websocketManager = new WebsocketManager();
+        handleApi = handleApiService;
+        handleCommandReturnMessage = handleCommandReturnMessageService;
         logger.info(BaseConstant.INITIALIZED);
     }
 
