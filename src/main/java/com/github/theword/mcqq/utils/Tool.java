@@ -67,8 +67,8 @@ public class Tool {
      * @param handleCommandReturnMessageService 命令消息处理
      */
     public static void initTool(boolean isModServer, HandleApi handleApiService, HandleCommandReturnMessage handleCommandReturnMessageService) {
-        logger.info(BaseConstant.LAUNCHING);
         logger = LoggerFactory.getLogger("MC_QQ");
+        logger.info(BaseConstant.LAUNCHING);
         config = new Config(isModServer);
         websocketManager = new WebsocketManager();
         handleApi = handleApiService;
