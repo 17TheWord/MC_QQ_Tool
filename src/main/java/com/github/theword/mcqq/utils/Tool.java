@@ -2,6 +2,8 @@ package com.github.theword.mcqq.utils;
 
 import com.github.theword.mcqq.constant.BaseConstant;
 import com.github.theword.mcqq.eventModels.base.BaseEvent;
+import com.github.theword.mcqq.handleMessage.HandleApi;
+import com.github.theword.mcqq.handleMessage.HandleCommandReturnMessage;
 import com.github.theword.mcqq.returnBody.returnModle.MyBaseComponent;
 import com.github.theword.mcqq.websocket.WsClient;
 import com.github.theword.mcqq.websocket.WsServer;
@@ -14,9 +16,11 @@ import java.util.List;
 public class Tool {
     public static Logger logger = null;
     public static Config config = null;
-    public static List<WsClient> wsClientList = new ArrayList<>();
-    public static HandleWebsocketMessage handleWebsocketMessage = null;
     public static WsServer wsServer = null;
+    public static List<WsClient> wsClientList = new ArrayList<>();
+    public static WebsocketManager websocketManager = null;
+    public static HandleApi handleApi = null;
+    public static HandleCommandReturnMessage handleCommandReturnMessage = null;
 
     /**
      * 字符串转为 unicode 编码
@@ -58,14 +62,17 @@ public class Tool {
     /**
      * 初始化
      *
-     * @param logName                       日志名称
-     * @param isModServer                   是否为模组服务器
-     * @param handleWebsocketMessageService websocket消息处理
+     * @param isModServer                       是否为模组服务器
+     * @param handleApiService                  api消息处理
+     * @param handleCommandReturnMessageService 命令消息处理
      */
-    public static void initTool(String logName, boolean isModServer, HandleWebsocketMessage handleWebsocketMessageService) {
-        logger = LoggerFactory.getLogger(logName);
+    public static void initTool(boolean isModServer, HandleApi handleApiService, HandleCommandReturnMessage handleCommandReturnMessageService) {
+        logger = LoggerFactory.getLogger("MC_QQ");
+        logger.info(BaseConstant.LAUNCHING);
         config = new Config(isModServer);
-        handleWebsocketMessage = handleWebsocketMessageService;
+        websocketManager = new WebsocketManager();
+        handleApi = handleApiService;
+        handleCommandReturnMessage = handleCommandReturnMessageService;
         logger.info(BaseConstant.INITIALIZED);
     }
 
@@ -92,7 +99,7 @@ public class Tool {
      */
     public static void commandReturn(Object commandReturner, String message) {
         if (commandReturner != null)
-            handleWebsocketMessage.handleCommandReturnMessage(commandReturner, message);
+            handleCommandReturnMessage.handleCommandReturnMessage(commandReturner, message);
     }
 
     /**

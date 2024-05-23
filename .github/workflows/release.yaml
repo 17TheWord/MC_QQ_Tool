@@ -4,9 +4,8 @@
 name: Publish Artifacts to GitHub Packages
 
 on:
-  push:
-    branches-ignore:
-      - "dev-*"
+  release:
+    types: [ created ]
 
 jobs:
   build:
