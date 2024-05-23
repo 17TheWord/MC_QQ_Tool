@@ -27,6 +27,7 @@ public class WebsocketConstantMessage {
         public static final String MISSING_SERVER_NAME_IN_HEADER = CONNECT_FROM + "连接请求头中缺少服务器名，将断开连接";
         public static final String WRONG_CLIENT_ORIGIN_IN_HEADER = CONNECT_FROM + "连接请求头中客户端来源错误，将断开连接";
         public static final String PARSE_SERVER_NAME_FAILED_IN_HEADER = CONNECT_FROM + "连接请求头中服务器名解析失败，将断开连接";
+        public static final String WRONG_ACCESS_TOKEN_IN_HEADER = CONNECT_FROM + "连接身份验证失败，将断开连接";
 
         public static final String CLIENT_CONNECTED_SUCCESSFULLY = CONNECT_FROM + "客户端已连接";
         public static final String CLIENT_DISCONNECTED = CONNECT_FROM + "客户端已断开";
@@ -34,7 +35,7 @@ public class WebsocketConstantMessage {
 
         public static final String ON_ERROR = CONNECT_FROM + "WebSocket 连接出现异常：%s";
 
-        public static final String ON_START = "WebSocket Server 正在启动...";
+        public static final String ON_START = "WebSocket Server 在 %s:%s 启动...";
 
     }
 }

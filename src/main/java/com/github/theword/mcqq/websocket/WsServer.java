@@ -11,10 +11,16 @@ import java.net.InetSocketAddress;
 import static com.github.theword.mcqq.utils.Tool.*;
 
 public class WsServer extends WebSocketServer {
+
+    private final String hostName;
+    private final int port;
     private final HandleProtocolMessage handleProtocolMessage = new HandleProtocolMessage();
 
     public WsServer(InetSocketAddress address) {
         super(address);
+        this.hostName = address.getHostName();
+        this.port = address.getPort();
+    }
     }
 
     @Override
@@ -40,7 +46,6 @@ public class WsServer extends WebSocketServer {
             webSocket.close(1008, "X-Self-name Header cannot be empty");
             return;
         }
-        logger.info(String.format(WebsocketConstantMessage.Server.CLIENT_CONNECTED_SUCCESSFULLY, webSocket.getRemoteSocketAddress().getHostString()));
 
         String accessToken = clientHandshake.getFieldValue("Authorization");
         if (!config.getAccessToken().isEmpty() && !accessToken.equals("Bearer " + config.getAccessToken())) {
@@ -49,6 +54,7 @@ public class WsServer extends WebSocketServer {
             return;
         }
 
+        logger.info(String.format(WebsocketConstantMessage.Server.CLIENT_CONNECTED_SUCCESSFULLY, getClientAddress(webSocket)));
     }
 
     @Override
@@ -76,6 +82,6 @@ public class WsServer extends WebSocketServer {
 
     @Override
     public void onStart() {
-        logger.info(WebsocketConstantMessage.Server.ON_START);
+        logger.info(String.format(WebsocketConstantMessage.Server.ON_START, hostName, port));
     }
 }
