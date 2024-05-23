@@ -41,6 +41,14 @@ public class WsServer extends WebSocketServer {
             return;
         }
         logger.info(String.format(WebsocketConstantMessage.Server.CLIENT_CONNECTED_SUCCESSFULLY, webSocket.getRemoteSocketAddress().getHostString()));
+
+        String accessToken = clientHandshake.getFieldValue("Authorization");
+        if (!config.getAccessToken().isEmpty() && !accessToken.equals("Bearer " + config.getAccessToken())) {
+            logger.warn(String.format(WebsocketConstantMessage.Server.WRONG_ACCESS_TOKEN_IN_HEADER, getClientAddress(webSocket)));
+            webSocket.close(1008, "Authorization Header is wrong");
+            return;
+        }
+
     }
 
     @Override

@@ -53,3 +53,8 @@ enable_quit_message: true
 # 如果是多个服务器，请务必对各个服务器设置不同的服务器名称。
 # 默认值为：Server
 server_name: "Server"
+
+# Access Token
+# 用于连接时进行加密验证
+# 默认为空
+access_token: ""

@@ -34,6 +34,7 @@ public class Config {
     private boolean enableJoinMessage;
     private boolean enableQuitMessage;
     private String serverName;
+    private String accessToken;
 
     /**
      * @param isModServer 是否为模组服
@@ -142,6 +143,7 @@ public class Config {
         enableJoinMessage = (boolean) configMap.get("enable_join_message");
         enableQuitMessage = (boolean) configMap.get("enable_quit_message");
         serverName = (String) configMap.get("server_name");
+        accessToken = (String) configMap.get("access_token");
         loadWebsocketClient(configMap.get("websocket_client"));
         loadWebsocketServer(configMap.get("websocket_server"));
     }
@@ -167,5 +169,6 @@ public class Config {
         enableJoinMessage = true;
         enableQuitMessage = true;
         serverName = "Server";
+        accessToken = "";
     }
 }
