@@ -21,28 +21,30 @@ public class WsServer extends WebSocketServer {
         this.hostName = address.getHostName();
         this.port = address.getPort();
     }
+
+    private String getClientAddress(WebSocket webSocket) {
+        return webSocket.getRemoteSocketAddress().toString().replaceFirst("/", "");
     }
 
     @Override
     public void onOpen(WebSocket webSocket, ClientHandshake clientHandshake) {
         String originServerName = clientHandshake.getFieldValue("x-self-name");
         if (originServerName.isEmpty()) {
-            logger.warn(String.format(WebsocketConstantMessage.Server.MISSING_SERVER_NAME_IN_HEADER, webSocket.getRemoteSocketAddress().getHostString()));
+            logger.warn(String.format(WebsocketConstantMessage.Server.MISSING_SERVER_NAME_IN_HEADER, getClientAddress(webSocket)));
             webSocket.close(1008, "Missing X-Self-name Header");
             return;
         }
 
         String clientOrigin = clientHandshake.getFieldValue("x-client-origin");
-
         if (clientOrigin.equalsIgnoreCase("minecraft")) {
-            logger.warn(String.format(WebsocketConstantMessage.Server.WRONG_CLIENT_ORIGIN_IN_HEADER, webSocket.getRemoteSocketAddress().getHostString()));
+            logger.warn(String.format(WebsocketConstantMessage.Server.WRONG_CLIENT_ORIGIN_IN_HEADER, getClientAddress(webSocket)));
             webSocket.close(1008, "X-Client-Origin Header cannot be minecraft");
             return;
         }
 
         String serverName = unicodeDecode(originServerName);
         if (serverName.isEmpty()) {
-            logger.warn(String.format(WebsocketConstantMessage.Server.PARSE_SERVER_NAME_FAILED_IN_HEADER, webSocket.getRemoteSocketAddress().getHostString()));
+            logger.warn(String.format(WebsocketConstantMessage.Server.PARSE_SERVER_NAME_FAILED_IN_HEADER, getClientAddress(webSocket)));
             webSocket.close(1008, "X-Self-name Header cannot be empty");
             return;
         }
@@ -60,7 +62,7 @@ public class WsServer extends WebSocketServer {
     @Override
     public void onClose(WebSocket webSocket, int code, String reason, boolean remote) {
         String closeReason = remote ? WebsocketConstantMessage.Server.CLIENT_DISCONNECTED : WebsocketConstantMessage.Server.CLIENT_HAD_BEEN_DISCONNECTED;
-        logger.info(String.format(closeReason, webSocket.getRemoteSocketAddress().getHostString()));
+        logger.info(String.format(closeReason, getClientAddress(webSocket)));
     }
 
     @Override
@@ -69,7 +71,7 @@ public class WsServer extends WebSocketServer {
             try {
                 handleProtocolMessage.handleWebSocketJson(message);
             } catch (Exception e) {
-                logger.warn(String.format(WebsocketConstantMessage.PARSE_MESSAGE_ERROR_ON_MESSAGE, webSocket.getRemoteSocketAddress()));
+                logger.warn(String.format(WebsocketConstantMessage.PARSE_MESSAGE_ERROR_ON_MESSAGE, getClientAddress(webSocket)));
                 logger.warn(e.getMessage());
             }
         }
@@ -77,7 +79,7 @@ public class WsServer extends WebSocketServer {
 
     @Override
     public void onError(WebSocket webSocket, Exception exception) {
-        logger.warn(String.format(WebsocketConstantMessage.Server.ON_ERROR, webSocket.getRemoteSocketAddress().toString().replaceFirst("/", ""), exception.getMessage()));
+        logger.warn(String.format(WebsocketConstantMessage.Server.ON_ERROR, getClientAddress(webSocket), exception.getMessage()));
     }
 
     @Override
