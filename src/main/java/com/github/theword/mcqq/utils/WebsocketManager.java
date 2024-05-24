@@ -37,8 +37,9 @@ public class WebsocketManager {
     /**
      * 停止 WebSocket 客户端
      *
-     * @param code   Code
-     * @param reason 原因
+     * @param code            Code
+     * @param reason          原因
+     * @param commandReturner 命令执行者
      */
     public void stopWebsocketClients(int code, String reason, Object commandReturner) {
         wsClientList.forEach(wsClient -> {
