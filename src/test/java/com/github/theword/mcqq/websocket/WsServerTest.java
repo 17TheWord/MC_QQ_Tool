@@ -4,15 +4,19 @@ import com.github.theword.mcqq.utils.Tool;
 import org.junit.jupiter.api.Test;
 import org.slf4j.LoggerFactory;
 
+import java.io.UnsupportedEncodingException;
 import java.net.InetSocketAddress;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 
+import static com.github.theword.mcqq.utils.Tool.config;
 import static com.github.theword.mcqq.utils.Tool.logger;
 
 class WsServerTest {
 
     @Test
-    void getUnicodeServerName() {
-        System.out.println(Tool.unicodeEncode("中文"));
+    void getUnicodeServerName() throws UnsupportedEncodingException {
+        System.out.println(URLEncoder.encode("服务器", StandardCharsets.UTF_8.toString()));
     }
 
     @Test
