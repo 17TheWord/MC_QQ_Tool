@@ -3,15 +3,19 @@ package com.github.theword.mcqq.websocket;
 import com.github.theword.mcqq.constant.WebsocketConstantMessage;
 import com.github.theword.mcqq.handleMessage.HandleProtocolMessage;
 import lombok.Getter;
+import lombok.SneakyThrows;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
 
 import java.net.ConnectException;
 import java.net.URI;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import static com.github.theword.mcqq.utils.Tool.*;
+import static com.github.theword.mcqq.utils.Tool.config;
+import static com.github.theword.mcqq.utils.Tool.logger;
 
 
 public class WsClient extends WebSocketClient {
@@ -20,9 +24,10 @@ public class WsClient extends WebSocketClient {
     private final Timer timer = new Timer();
     private final HandleProtocolMessage handleProtocolMessage = new HandleProtocolMessage();
 
+    @SneakyThrows
     public WsClient(URI uri) {
         super(uri);
-        addHeader("x-self-name", unicodeEncode(config.getServerName()));
+        addHeader("x-self-name", URLEncoder.encode(config.getServerName(), StandardCharsets.UTF_8.toString()));
         addHeader("x-client-origin", "minecraft");
         if (!config.getAccessToken().isEmpty())
             addHeader("Authorization", "Bearer " + config.getAccessToken());

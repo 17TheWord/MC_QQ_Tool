@@ -2,13 +2,17 @@ package com.github.theword.mcqq.websocket;
 
 import com.github.theword.mcqq.constant.WebsocketConstantMessage;
 import com.github.theword.mcqq.handleMessage.HandleProtocolMessage;
+import lombok.SneakyThrows;
 import org.java_websocket.WebSocket;
 import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.server.WebSocketServer;
 
 import java.net.InetSocketAddress;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 
-import static com.github.theword.mcqq.utils.Tool.*;
+import static com.github.theword.mcqq.utils.Tool.config;
+import static com.github.theword.mcqq.utils.Tool.logger;
 
 public class WsServer extends WebSocketServer {
 
@@ -27,6 +31,7 @@ public class WsServer extends WebSocketServer {
     }
 
     @Override
+    @SneakyThrows
     public void onOpen(WebSocket webSocket, ClientHandshake clientHandshake) {
         String originServerName = clientHandshake.getFieldValue("x-self-name");
         if (originServerName.isEmpty()) {
@@ -42,7 +47,7 @@ public class WsServer extends WebSocketServer {
             return;
         }
 
-        String serverName = unicodeDecode(originServerName);
+        String serverName = URLDecoder.decode(originServerName, StandardCharsets.UTF_8.toString());
         if (serverName.isEmpty()) {
             logger.warn(String.format(WebsocketConstantMessage.Server.PARSE_SERVER_NAME_FAILED_IN_HEADER, getClientAddress(webSocket)));
             webSocket.close(1008, "X-Self-name Header cannot be empty");
