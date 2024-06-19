@@ -52,7 +52,7 @@ public class WsClient extends WebSocketClient {
     public void onMessage(String message) {
         if (config.isEnableMcQQ()) {
             try {
-                handleProtocolMessage.handleWebSocketJson(message);
+                handleProtocolMessage.handleWebSocketJson(this, message);
             } catch (Exception e) {
                 logger.warn(String.format(WebsocketConstantMessage.PARSE_MESSAGE_ERROR_ON_MESSAGE, getURI()));
                 logger.warn(e.getMessage());
