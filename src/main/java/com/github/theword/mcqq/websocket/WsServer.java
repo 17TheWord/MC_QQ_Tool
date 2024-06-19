@@ -74,7 +74,7 @@ public class WsServer extends WebSocketServer {
     public void onMessage(WebSocket webSocket, String message) {
         if (config.isEnableMcQQ()) {
             try {
-                handleProtocolMessage.handleWebSocketJson(message);
+                handleProtocolMessage.handleWebSocketJson(webSocket, message);
             } catch (Exception e) {
                 logger.warn(String.format(WebsocketConstantMessage.PARSE_MESSAGE_ERROR_ON_MESSAGE, getClientAddress(webSocket)));
                 logger.warn(e.getMessage());

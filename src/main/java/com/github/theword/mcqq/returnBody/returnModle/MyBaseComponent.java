@@ -13,4 +13,9 @@ public class MyBaseComponent {
     private boolean strikethrough;
     private boolean obfuscated;
     private String insertion;
+
+    @Override
+    public String toString() {
+        return this.text;
+    }
 }
