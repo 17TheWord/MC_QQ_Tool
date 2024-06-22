@@ -35,6 +35,7 @@ public class Config {
     private boolean enableQuitMessage;
     private String serverName;
     private String accessToken;
+    private String messagePrefix;
 
     /**
      * @param isModServer 是否为模组服
@@ -144,6 +145,7 @@ public class Config {
         enableQuitMessage = (boolean) configMap.get("enable_quit_message");
         serverName = (String) configMap.get("server_name");
         accessToken = (String) configMap.get("access_token");
+        messagePrefix = (String) configMap.get("message_prefix");
         loadWebsocketClient(configMap.get("websocket_client"));
         loadWebsocketServer(configMap.get("websocket_server"));
     }
@@ -170,5 +172,6 @@ public class Config {
         enableQuitMessage = true;
         serverName = "Server";
         accessToken = "";
+        messagePrefix = "[MC_QQ]";
     }
 }
