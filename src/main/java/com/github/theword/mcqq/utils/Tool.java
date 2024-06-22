@@ -72,7 +72,7 @@ public class Tool {
      */
     public static MyBaseComponent getPrefixComponent() {
         MyBaseComponent myBaseComponent = new MyBaseComponent();
-        myBaseComponent.setText("[MC_QQ]");
+        myBaseComponent.setText(config.getMessagePrefix() + " ");
         myBaseComponent.setColor("gold");
         return myBaseComponent;
     }
