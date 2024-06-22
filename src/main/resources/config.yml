@@ -58,3 +58,9 @@ server_name: "Server"
 # 用于连接时进行加密验证
 # 默认为空
 access_token: ""
+
+# 消息前缀
+# 消息前面添加的前缀（不包含Title、ActionBar）
+# 默认为[MC_QQ]
+# 设置为空时，不会在消息前面添加前缀
+message_prefix: "[MC_QQ]"

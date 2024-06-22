@@ -27,6 +27,7 @@ public class HandleProtocolMessage {
         JsonElement data = baseReturnBody.getData();
         switch (baseReturnBody.getApi()) {
             case "broadcast":
+            case "send_msg":
                 MessageReturnBody messageList = gson.fromJson(data, MessageReturnBody.class);
                 handleApi.handleBroadcastMessage(webSocket, messageList.getMessageList());
                 break;
