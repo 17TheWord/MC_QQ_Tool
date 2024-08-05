@@ -1,4 +1,4 @@
-package com.github.theword.mcqq.handleMessage;
+package com.github.theword.queqiao.handle;
 
 public interface HandleCommandReturnMessage {
 
