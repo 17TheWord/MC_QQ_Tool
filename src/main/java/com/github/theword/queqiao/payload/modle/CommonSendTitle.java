@@ -1,4 +1,4 @@
-package com.github.theword.mcqq.returnBody.returnModle;
+package com.github.theword.queqiao.payload.modle;
 
 import lombok.Data;
 
@@ -6,11 +6,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Data
-public class SendTitle {
+public class CommonSendTitle {
 
-    private List<MyBaseComponent> title;
+    private List<CommonBaseComponent> title;
 
-    private List<MyBaseComponent> subtitle;
+    private List<CommonBaseComponent> subtitle;
 
     private int fadein;
 
@@ -20,13 +20,13 @@ public class SendTitle {
 
     public String toTitleString() {
         return title.stream()
-                .map(MyBaseComponent::getText)
+                .map(CommonBaseComponent::getText)
                 .collect(Collectors.joining());
     }
 
     public String toSubtitleString() {
         return subtitle.stream()
-                .map(MyBaseComponent::getText)
+                .map(CommonBaseComponent::getText)
                 .collect(Collectors.joining());
     }
 
