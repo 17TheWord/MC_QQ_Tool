@@ -1,7 +1,7 @@
-package com.github.theword.mcqq.websocket;
+package com.github.theword.queqiao.websocket;
 
-import com.github.theword.mcqq.constant.WebsocketConstantMessage;
-import com.github.theword.mcqq.handleMessage.HandleProtocolMessage;
+import com.github.theword.queqiao.constant.WebsocketConstantMessage;
+import com.github.theword.queqiao.handle.HandleProtocolMessage;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import org.java_websocket.client.WebSocketClient;
@@ -14,23 +14,35 @@ import java.nio.charset.StandardCharsets;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import static com.github.theword.mcqq.utils.Tool.config;
-import static com.github.theword.mcqq.utils.Tool.logger;
+import static com.github.theword.queqiao.utils.Tool.*;
 
-
+/**
+ * WebSocket 客户端
+ */
 public class WsClient extends WebSocketClient {
     private int reconnectTimes = 1;
+    /**
+     * 重连定时器
+     */
     @Getter
     private final Timer timer = new Timer();
+    /**
+     * 处理协议消息
+     */
     private final HandleProtocolMessage handleProtocolMessage = new HandleProtocolMessage();
 
+    /**
+     * Websocket Client 构造函数
+     *
+     * @param uri URI
+     */
     @SneakyThrows
     public WsClient(URI uri) {
         super(uri);
-        addHeader("x-self-name", URLEncoder.encode(config.getServerName(), StandardCharsets.UTF_8.toString()));
+        addHeader("x-self-name", URLEncoder.encode(config.getServer_name(), StandardCharsets.UTF_8.toString()));
         addHeader("x-client-origin", "minecraft");
-        if (!config.getAccessToken().isEmpty())
-            addHeader("Authorization", "Bearer " + config.getAccessToken());
+        if (!config.getAccess_token().isEmpty())
+            addHeader("Authorization", "Bearer " + config.getAccess_token());
     }
 
     /**
@@ -40,7 +52,7 @@ public class WsClient extends WebSocketClient {
      */
     @Override
     public void onOpen(ServerHandshake serverHandshake) {
-        logger.info(String.format(WebsocketConstantMessage.Client.ON_OPEN, getURI()));
+        logger.info(String.format(WebsocketConstantMessage.Client.CONNECT_SUCCESSFUL, getURI()));
         reconnectTimes = 1;
     }
 
@@ -50,7 +62,7 @@ public class WsClient extends WebSocketClient {
      */
     @Override
     public void onMessage(String message) {
-        if (config.isEnableMcQQ()) {
+        if (config.isEnable()) {
             try {
                 handleProtocolMessage.handleWebSocketJson(this, message);
             } catch (Exception e) {
@@ -69,11 +81,15 @@ public class WsClient extends WebSocketClient {
      */
     @Override
     public void onClose(int code, String reason, boolean remote) {
-        if (remote && reconnectTimes <= config.getReconnectMaxTimes()) {
+        if (remote && reconnectTimes <= config.getWebsocket_client().getReconnect_max_times()) {
             reconnectWebsocket();
         }
     }
 
+    /**
+     * 重连
+     * 延迟一定时间后重连
+     */
     public void reconnectWebsocket() {
         TimerTask timerTask = new TimerTask() {
             @Override
@@ -81,23 +97,30 @@ public class WsClient extends WebSocketClient {
                 reconnect();
             }
         };
-        timer.schedule(timerTask, config.getReconnectInterval() * 1000L);
+        timer.schedule(timerTask, config.getWebsocket_client().getReconnect_interval() * 1000L);
     }
 
+    /**
+     * 关闭连接且不重连
+     *
+     * @param code   关闭码
+     * @param reason 关闭信息
+     */
     public void stopWithoutReconnect(int code, String reason) {
         timer.cancel();
         close(code, reason);
     }
 
+    /**
+     * 重连
+     */
     @Override
     public void reconnect() {
-        if (config.isEnableReconnectMessage()) {
-            logger.info(String.format(WebsocketConstantMessage.Client.RECONNECT_MESSAGE, getURI(), reconnectTimes));
-        }
+        debugLog(String.format(WebsocketConstantMessage.Client.RECONNECTING, getURI(), reconnectTimes));
         reconnectTimes++;
         super.reconnect();
-        if (reconnectTimes == config.getReconnectMaxTimes() + 1) {
-            logger.info(String.format(WebsocketConstantMessage.Client.RECONNECT_TIMES_REACH, getURI()));
+        if (reconnectTimes == config.getWebsocket_client().getReconnect_max_times() + 1) {
+            logger.info(String.format(WebsocketConstantMessage.Client.MAX_RECONNECT_ATTEMPTS_REACHED, getURI()));
         }
     }
 
@@ -108,18 +131,27 @@ public class WsClient extends WebSocketClient {
      */
     @Override
     public void onError(Exception exception) {
-        logger.warn(String.format(WebsocketConstantMessage.Client.ON_ERROR, getURI(), exception.getMessage()));
-        if (exception instanceof ConnectException && exception.getMessage().equals("Connection refused: connect") && reconnectTimes <= config.getReconnectMaxTimes()) {
+        logger.warn(String.format(WebsocketConstantMessage.Client.CONNECTION_ERROR, getURI(), exception.getMessage()));
+        if (exception instanceof ConnectException && exception.getMessage().equals("Connection refused: connect") && reconnectTimes <= config.getWebsocket_client().getReconnect_max_times()) {
             reconnectWebsocket();
         }
     }
 
+    /**
+     * 发送消息
+     * 如果连接已打开，则发送消息，否则打印错误信息
+     *
+     * @param text 消息
+     */
     @Override
     public void send(String text) {
         if (isOpen()) {
             super.send(text);
+            debugLog(String.format(WebsocketConstantMessage.Client.SEND_MESSAGE, getURI(), text));
         } else {
-            logger.info(String.format(WebsocketConstantMessage.Client.IS_NOT_OPEN_WHEN_SEND_MESSAGE, getURI()));
+            debugLog(WebsocketConstantMessage.Client.SEND_MESSAGE_FAILED, getURI(), text);
         }
     }
+
+
 }
