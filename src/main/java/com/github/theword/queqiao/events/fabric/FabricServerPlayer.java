@@ -1,6 +1,6 @@
-package com.github.theword.mcqq.eventModels.fabric;
+package com.github.theword.queqiao.events.fabric;
 
-import com.github.theword.mcqq.eventModels.base.BasePlayer;
+import com.github.theword.queqiao.events.base.BasePlayer;
 import com.google.gson.annotations.SerializedName;
 import lombok.AllArgsConstructor;
 import lombok.Data;

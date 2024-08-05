@@ -1,6 +1,6 @@
-package com.github.theword.mcqq.eventModels.forge;
+package com.github.theword.queqiao.events.forge;
 
-import com.github.theword.mcqq.eventModels.base.BaseCommandEvent;
+import com.github.theword.queqiao.events.base.BaseCommandEvent;
 
 public class ForgeCommandEvent extends BaseCommandEvent {
     public ForgeCommandEvent(String messageId, ForgeServerPlayer player, String command) {

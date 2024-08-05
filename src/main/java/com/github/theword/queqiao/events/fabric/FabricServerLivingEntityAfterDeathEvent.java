@@ -1,6 +1,6 @@
-package com.github.theword.mcqq.eventModels.fabric;
+package com.github.theword.queqiao.events.fabric;
 
-import com.github.theword.mcqq.eventModels.base.BasePlayerDeathEvent;
+import com.github.theword.queqiao.events.base.BasePlayerDeathEvent;
 
 public class FabricServerLivingEntityAfterDeathEvent extends BasePlayerDeathEvent {
 

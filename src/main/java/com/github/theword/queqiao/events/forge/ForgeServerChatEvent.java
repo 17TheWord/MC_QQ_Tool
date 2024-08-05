@@ -1,6 +1,6 @@
-package com.github.theword.mcqq.eventModels.forge;
+package com.github.theword.queqiao.events.forge;
 
-import com.github.theword.mcqq.eventModels.base.BasePlayerChatEvent;
+import com.github.theword.queqiao.events.base.BasePlayerChatEvent;
 
 public final class ForgeServerChatEvent extends BasePlayerChatEvent {
     public ForgeServerChatEvent(String messageId, ForgeServerPlayer player, String message) {

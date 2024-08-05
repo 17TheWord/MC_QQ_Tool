@@ -1,6 +1,6 @@
-package com.github.theword.mcqq.eventModels.forge;
+package com.github.theword.queqiao.events.forge;
 
-import com.github.theword.mcqq.eventModels.base.BasePlayerDeathEvent;
+import com.github.theword.queqiao.events.base.BasePlayerDeathEvent;
 
 public class ForgePlayerDeathEvent extends BasePlayerDeathEvent {
 

@@ -1,6 +1,6 @@
-package com.github.theword.mcqq.eventModels.fabric;
+package com.github.theword.queqiao.events.fabric;
 
-import com.github.theword.mcqq.eventModels.base.BaseCommandEvent;
+import com.github.theword.queqiao.events.base.BaseCommandEvent;
 
 public class FabricServerCommandMessageEvent extends BaseCommandEvent {
     public FabricServerCommandMessageEvent(String messageId, FabricServerPlayer player, String message) {
