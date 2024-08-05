@@ -1,66 +1,34 @@
-# 是否启用插件
-# 默认启用
-enable_mc_qq: true
+enable: true # 是否启用插件/模组
 
-# 是否启用 玩家聊天事件监听
-# 开启后，当玩家聊天时，Bot 会推送聊天信息
-enable_chat_message: true
+debug: false # DEBUG，开启后会打印所有日志
 
-# 是否启用重连提示
-# 默认开启
-enable_reconnect_msg: true
+server_name: "Server" # 服务器名称，当有多个服务器时，请使用不同的命名
 
-# 重连最大次数
-reconnect_max_times: 5
-
-# 重连间隔，单位：秒
-reconnect_interval: 5
-
-# WebSocket Server配置项
-websocket_server:
-  enable: false
-  host: "127.0.0.1"
-  port: 8080
-
-# 请在冒号后填写 WebSocket 地址。
-# 默认：ws://127.0.0.1:8080/minecraft/ws
-websocket_client:
-  enable: true
-  url_list:
-    - "ws://127.0.0.1:8080/minecraft/ws"
-
-# 是否启用 玩家命令事件监听
-# 开启后，当玩家输入命令时，Bot 会推送命令信息
-# 默认不启用
-enable_command_message: false
-
-# 是否启用 玩家死亡事件监听
-# 开启后，当玩家死亡时，Bot 会推送信息
-# 默认启用
-enable_death_message: true
-
-# 是否启用 加入/离开 服务器监听
-# 开启后，当玩家 加入/离开 服务器时，Bot 会推送信息
-# 默认打开
-# 例如：
-#   17TheWord 加入了服务器
-#   17TheWord 离开了服务器
-enable_join_message: true
-enable_quit_message: true
-
-# 服务器名称
-# 当有多个服务器连接到 Bot 时，用于区分。
-# 如果是多个服务器，请务必对各个服务器设置不同的服务器名称。
-# 默认值为：Server
-server_name: "Server"
-
-# Access Token
-# 用于连接时进行加密验证
-# 默认为空
-access_token: ""
+access_token: "" # 用于连接时进行验证
 
 # 消息前缀
 # 消息前面添加的前缀（不包含Title、ActionBar）
-# 默认为[MC_QQ]
 # 设置为空时，不会在消息前面添加前缀
-message_prefix: "[MC_QQ]"
+message_prefix: "鹊桥"
+
+# WebSocket Server配置项
+websocket_server:
+  enable: false         # 是否启用
+  host: "127.0.0.1"     # WebSocket Server 地址
+  port: 8080            # WebSocket Server 端口
+
+# WebSocket Client配置项
+websocket_client:
+  enable: true                  # 是否启用
+  reconnect_interval: 5         # 重连间隔（秒）
+  reconnect_max_times: 5        # 最大重连次数
+  url_list:
+    - "ws://127.0.0.1:8080/minecraft/ws"
+
+# 订阅事件配置项
+subscribe_event:
+  player_chat: true       # 玩家聊天事件监听
+  player_death: true      # 玩家死亡事件监听
+  player_login: true      # 玩家登录事件监听
+  player_quit: true       # 玩家退出事件监听
+  player_command: false   # 玩家命令事件监听
