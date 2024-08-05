@@ -1,6 +1,7 @@
-package com.github.theword.mcqq.commands.subCommands;
+package com.github.theword.queqiao.commands.subCommands;
 
-import com.github.theword.mcqq.commands.SubCommand;
+import com.github.theword.queqiao.commands.SubCommand;
+import com.github.theword.queqiao.constant.BaseConstant;
 
 public abstract class ReloadCommandAbstract implements SubCommand {
 
@@ -27,10 +28,10 @@ public abstract class ReloadCommandAbstract implements SubCommand {
     /**
      * 获取命令用法
      *
-     * @return 使用：/mcqq reload
+     * @return 使用：/${BaseConstant.COMMAND_HEADER} reload
      */
     @Override
     public String getUsage() {
-        return "使用：/mcqq reload";
+        return "使用：/" + BaseConstant.COMMAND_HEADER + " reload";
     }
 }

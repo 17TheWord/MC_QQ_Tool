@@ -1,6 +1,7 @@
-package com.github.theword.mcqq.commands.subCommands.client;
+package com.github.theword.queqiao.commands.subCommands.client;
 
-import com.github.theword.mcqq.commands.SubCommand;
+import com.github.theword.queqiao.commands.SubCommand;
+import com.github.theword.queqiao.constant.BaseConstant;
 
 public abstract class ReconnectCommandAbstract implements SubCommand {
 
@@ -21,10 +22,10 @@ public abstract class ReconnectCommandAbstract implements SubCommand {
     }
 
     /**
-     * @return 使用：/mcqq client reconnect [all]
+     * @return 使用：/BaseConstant.COMMAND_HEADER client reconnect [all]
      */
     @Override
     public String getUsage() {
-        return "使用：/mcqq client reconnect [all]";
+        return "使用：/" + BaseConstant.COMMAND_HEADER + " client reconnect [all]";
     }
 }

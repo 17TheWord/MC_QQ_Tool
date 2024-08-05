@@ -1,4 +1,4 @@
-package com.github.theword.mcqq.commands;
+package com.github.theword.queqiao.commands;
 
 public interface SubCommand {
 
