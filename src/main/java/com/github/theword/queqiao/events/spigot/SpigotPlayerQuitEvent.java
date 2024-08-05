@@ -1,6 +1,6 @@
-package com.github.theword.mcqq.eventModels.spigot;
+package com.github.theword.queqiao.events.spigot;
 
-import com.github.theword.mcqq.eventModels.base.BasePlayerQuitEvent;
+import com.github.theword.queqiao.events.base.BasePlayerQuitEvent;
 
 public class SpigotPlayerQuitEvent extends BasePlayerQuitEvent {
 

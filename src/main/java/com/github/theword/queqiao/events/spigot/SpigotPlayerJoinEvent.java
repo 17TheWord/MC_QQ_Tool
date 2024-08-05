@@ -1,6 +1,6 @@
-package com.github.theword.mcqq.eventModels.spigot;
+package com.github.theword.queqiao.events.spigot;
 
-import com.github.theword.mcqq.eventModels.base.BasePlayerJoinEvent;
+import com.github.theword.queqiao.events.base.BasePlayerJoinEvent;
 
 public class SpigotPlayerJoinEvent extends BasePlayerJoinEvent {
 
