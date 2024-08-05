@@ -4,10 +4,13 @@
     <module name="TreeWalker">
         <module name="TypeName"/>
         <module name="EmptyBlock"/>
-        <module name="MemberName"/>
+        <module name="MemberName">
+            <property name="format" value="^[a-z](_?[a-zA-Z0-9]+)*$"/>
+        </module>
         <module name="MethodName"/>
         <module name="ConstantName"/>
         <module name="JavadocMethod"/>
+        <module name="SuppressWarnings"/>
     </module>
     <property name="charset" value="UTF-8"/>
 </module>
