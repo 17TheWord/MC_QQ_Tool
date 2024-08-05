@@ -1,10 +1,10 @@
-package com.github.theword.mcqq.returnBody;
+package com.github.theword.queqiao.payload;
 
 import com.google.gson.JsonElement;
 import lombok.Data;
 
 @Data
-public class BaseReturnBody {
+public class BasePayload {
 
     private String api;
 

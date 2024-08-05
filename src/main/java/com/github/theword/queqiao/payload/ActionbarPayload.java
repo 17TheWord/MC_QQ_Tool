@@ -1,6 +1,6 @@
-package com.github.theword.mcqq.returnBody;
+package com.github.theword.queqiao.payload;
 
-import com.github.theword.mcqq.returnBody.returnModle.MyBaseComponent;
+import com.github.theword.queqiao.payload.modle.CommonBaseComponent;
 import com.google.gson.annotations.SerializedName;
 import lombok.Data;
 
@@ -8,14 +8,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Data
-public class ActionbarReturnBody {
+public class ActionbarPayload {
     @SerializedName("message_list")
-    private List<MyBaseComponent> messageList;
+    private List<CommonBaseComponent> messageList;
 
     @Override
     public String toString() {
         return messageList.stream()
-                .map(MyBaseComponent::getText)
+                .map(CommonBaseComponent::getText)
                 .collect(Collectors.joining());
     }
 }

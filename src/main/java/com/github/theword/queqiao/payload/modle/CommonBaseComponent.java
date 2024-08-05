@@ -1,9 +1,9 @@
-package com.github.theword.mcqq.returnBody.returnModle;
+package com.github.theword.queqiao.payload.modle;
 
 import lombok.Data;
 
 @Data
-public class MyBaseComponent {
+public class CommonBaseComponent {
     private String text;
     private String color;
     private String font;
