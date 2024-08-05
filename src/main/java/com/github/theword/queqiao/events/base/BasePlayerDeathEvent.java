@@ -1,4 +1,4 @@
-package com.github.theword.mcqq.eventModels.base;
+package com.github.theword.queqiao.events.base;
 
 public class BasePlayerDeathEvent extends BaseMessageEvent {
 

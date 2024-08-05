@@ -1,4 +1,4 @@
-package com.github.theword.mcqq.eventModels.base;
+package com.github.theword.queqiao.events.base;
 
 public class BaseCommandEvent extends BaseMessageEvent {
     public BaseCommandEvent(String eventName, String messageId, BasePlayer player, String command) {
